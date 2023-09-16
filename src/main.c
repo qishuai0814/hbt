@@ -1,5 +1,6 @@
 #include "main.h"
 
+
 #define     HBT_VERSION     "V1.0.0"
 
 
@@ -16,7 +17,7 @@ int main(int argc, char *argv[])
 {
     hbt_cmd_st *cmd = NULL;
 
-    if (argc == 1)
+    if (argc < 2)
     {
         hbt_help_function(0,NULL);
         return 0;
@@ -59,12 +60,33 @@ hbt_cmd_st * get_hbt_cmd(unsigned char * name)
 cmd_st * get_cmd(cmd_st *cmd_table,unsigned int size, unsigned char * name)
 {
     cmd_st *p = NULL;
+    char *pstr = NULL;
+    unsigned int len = 0;
 
     for (size_t i = 0; i < size; i++)
     {
-        if ((strstr(cmd_table[i].cmd,name) != NULL))
+        pstr = strstr(cmd_table[i].cmd,name);
+        if (pstr != NULL)
         {
             p = &cmd_table[i];
+
+            if (strlen(cmd_table[i].cmd) <= 3)
+            {
+                len = strlen(cmd_table[i].cmd);
+            }else
+            {
+                len = 4;
+            }
+
+            for (size_t t = 0; t < len; t++)
+            {
+                if (name[t] != cmd_table[i].cmd[t])
+                {
+                    p = NULL;
+                    break;
+                }
+                
+            }
             break;
         }
     }

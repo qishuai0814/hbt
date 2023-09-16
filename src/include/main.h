@@ -4,9 +4,12 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
+#include <stdarg.h>
 
+
+#include "common.h"
+#include "hex.h"
 #include "hex2bin.h"
-
 
 
 
@@ -22,7 +25,7 @@ typedef struct _st_cmd
 {
     unsigned char *cmd;
     unsigned char has_argv;     // 0: no argv   1: one argv
-    void (*cmd_function)(char *argv);
+    void (*cmd_function)(char *argv,void *private);
     unsigned char *help;
 }cmd_st;
 
